@@ -52,13 +52,32 @@ Some nomenclature:
 *Hint*: You can run `?diamonds` to get information on a built-in dataset.
 
 ```{r load-packages, eval=FALSE}
+?diamonds
 ```
 
 ### __q2__ Run `glimpse(diamonds)`; what variables does `diamonds` have?
+```{r load-packages, eval=FALSE}
+glimpse(diamonds)
+```
+carat, cut, color, clarity, depth, table, price, x, y, z.
 
 
 ### __q3__ Run `summary(diamonds)`; what are the common values for each of the
 variables? How widely do each of the variables vary?
+```{r load-packages, eval=FALSE}
+summary(diamonds)
+```
+carat: mean 0.7979, variation 4.81, ranges from 0 to 5
+cut: is a factor (categorical data)
+color: is a factor (categorical data)
+clarity: is a factor (categorical data)
+depth: mean 61.75, variation 36
+table: mean 57.46, variation 52
+price: mean 3933, variation 18497, highest price $18823
+x: mean 5.731, variation 10.74
+y: mean 5.735, variation 58.9
+z: mean 3.539, variation 31.8
+
 
 *Hint*: The `Median` and `Mean` are common values, while `Min` and `Max` give us
 a sense of variation.
@@ -103,6 +122,7 @@ turn it into `diamonds %>% glimpse()`.
 ### __q4__ Use the pipe operator to re-write `summary(diamonds)`.
 
 ```{r q4-task}
+diamonds %>% summary()
 ```
 
 ## Reading Data
@@ -113,6 +133,8 @@ So far we've only been looking at built-in datasets. Ultimately, we'll want to r
 ### __q5__ Use the function `read_csv()` to load the file `"./data/tiny.csv"`.
 
 ```{r q5-task}
+
+read_csv("./data/tiny.csv")
 
 df_q5
 ```

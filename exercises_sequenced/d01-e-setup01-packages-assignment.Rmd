@@ -27,11 +27,20 @@ In [RStudio](https://bookdown.org/yihui/rmarkdown/r-code.html) use the shortcut
 `Ctrl + Alt + I` (`Cmd + Option + I` on Mac). Type the command
 `library(tidyverse`).
 
+```{r}
+library(tidyverse)
+```
+
+
 
 Make sure to load packages at the *beginning* of your notebooks! This is a
 best-practice.
 
 ### __q2__ Run the chunk with `library(tidyverse)`. What packages are loaded?
+
+✔ tibble  3.1.8      ✔ dplyr   1.0.10
+✔ tidyr   1.2.1      ✔ stringr 1.4.1 
+✔ readr   2.1.3      ✔ forcats 0.5.2
 
 In
 [RStudio](https://support.rstudio.com/hc/en-us/articles/200711853-Keyboard-Shortcuts)
@@ -40,6 +49,12 @@ cursor.
 
 
 ### __q3__ What are the main differences between `install.packages()` and `library()`? How often do you need to call each one?
+
+install.packages() is used to install new packages in R, while library() is used to load packages that have already been installed.
+
+When installing a new package, you would use install.packages("package_name"). Once the package is installed, you can load it into your R session by using library("package_name").
+
+You would need to use install.packages() whenever you want to install a new package that you haven't used before. You would use library() whenever you want to use a package that you have previously installed and want to load into your current R session.
 
 
 <!-- include-exit-ticket -->

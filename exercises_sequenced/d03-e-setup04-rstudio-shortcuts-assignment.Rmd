@@ -32,32 +32,33 @@ knitr::opts_chunk$set(echo = TRUE)
 * Within the script editor or a chunk
 
     * `Alt` + `-`
-
+Inserts assignment operator <-
 
     * `Shift` + `Cmd/Ctrl` + `M`
-
+Inserts pipe operator %>% 
 
     * `Cmd/Ctrl` + `Enter`
-
+If no text is highlighted, runs complete expression that cursor is on, and advances to the next line. If text is highlighted, runs selected text.
 
     * `F1` (Note: on a Mac you need to press `fn` + `F1`)
-
+If cursor is on a function name, pulls up the help page for the function.
 
 	* `Cmd/Ctrl` + `Shift` + `C`
-
+Comments/uncomments the code at the cursor, or highlighted code.
 
 
 * Within R Markdown
 
     * `Cmd/Ctrl` + `Alt` + `I`
-
+Inserts chunk
 
 * Within a chunk
 
     * `Shift` + `Cmd/Ctrl` + `Enter`
-
+Runs current chunk
 
     * `Ctrl` + `I` (`Cmd` + `I`)
+Re-indents selected lines
 
 
 Try this below!
@@ -66,9 +67,9 @@ Try this below!
 ## Re-indent these lines
 c(
   "foo",
-    "bar",
-      "goo",
-        "gah"
+  "bar",
+  "goo",
+  "gah"
 )
 ```
 
@@ -76,18 +77,22 @@ c(
 ### __q2__ For a chunk, what header option do you use to
 
 * Run the code, don't display it, but show its results?
-
+```{r echo=FALSE}
+```
 
 * Run the code, but don't display it or its results?
-
+```{r include=FALSE}
+```
 
 ### __q3__ How do stop the code in a chunk from running once it has started?
 
+Click the red square in the top right corner of the chunk.
 
 ### __q4__ How do you show the "Document Outline" in RStudio?
 
 *Hint*: Try googling "rstudio document outline"
 
+`Ctrl + Shift + O`
 
 <!-- include-exit-ticket -->
 # Exit Ticket

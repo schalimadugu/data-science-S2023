@@ -1,7 +1,7 @@
 ---
 title: "Getting Started: Diamonds"
-author: "(Your name here)"
-date: 2020-
+author: "Sreenidhi Chalimadugu"
+date: 2023-01-25
 output:
   github_document:
     toc: true
@@ -55,22 +55,31 @@ In this first stage, you will explore the `diamonds` dataset and document your o
 ```{r q1-task}
 ## TASK: Plot `price` vs `carat` below
 ## Your code here!
+ggplot(diamonds) + 
+  geom_point(aes(x = carat, y = price))
 ```
 
 **Observations**:
 
-- (Write your observations here!)
+The price generally increases with carat, but the trend is not very clean and there isn't a single curve that represents the relationship. There are outliers with carat values above 3 which stray away from the general trend, where the price per carat is lower than it should be.
+
 
 ### __q2__ Create a visualization showing variables `carat`, `price`, and `cut` simultaneously. Experiment with which variable you assign to which aesthetic (`x`, `y`, etc.) to find an effective visual.
 
 ```{r q2-task}
 ## TASK: Plot `price`, `carat`, and `cut` below
 ## Your code here!
+ggplot(diamonds) + 
+  geom_point(aes(x = carat, y = price, color = cut))
 ```
 
 **Observations**:
 
-- (Write your observations here!)
+As seen before, the price generally increases with carat, but the trend is not very clean and there isn't a single curve that represents the relationship.
+
+The cut helps explain the variation in price, where ideal cut diamonds (represented by yellow data points) tend to be more expensive and fair cut diamonds (represented by blue data points) tend to be less expensive. We can see that generally, the ideal cuts are worth more per carat than the more "fair" cuts, which makes sense intuitively.
+
+As in the previous plot, we saw that there were outliers with carat values above 3 which stray away from the general trend. With the new insights we obtained from this graph about the cut information, we can confirm what we stated earlier: the price per carat is lower than it should be. This makes sense with the new information that we have in our disposal about the cuts, where the fair cuts with carat values close to 5 are cheaper than what the general trend would indicate.
 
 
 # Communication

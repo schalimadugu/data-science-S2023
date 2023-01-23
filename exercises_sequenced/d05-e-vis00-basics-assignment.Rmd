@@ -30,9 +30,21 @@ knitr::opts_chunk$set(echo = TRUE)
 *Hint*: We learned how to inspect a dataset in `e-data-00-basics`!
 
 ```{r q1-task, eval=FALSE}
+?diamonds
 ```
+cut: quality of the cut (Fair, Good, Very Good, Premium, Ideal)
+
+color: diamond colour, from D (best) to J (worst)
+
+clarity: a measurement of how clear the diamond is (I1 (worst), SI2, SI1, VS2, VS1, VVS2, VVS1, IF (best))
+
 
 ### __q2__ Use your "standard checks" to determine what variables the dataset has.
+
+```{r q2-task, eval=FALSE}
+glimpse(diamonds)
+```
+The diamonds dataset has variables carat, cut, color, clarity, depth, table, price, x, y, z.
 
 
 Now that we have the list of variables in the dataset, we know what we can visualize!
@@ -46,12 +58,13 @@ y` pairs. Language is hard!
 
 ```{r q3-task}
 ## TODO: Complete this code
-ggplot(diamonds)
+ggplot(diamonds) + 
+  geom_point(aes(x = carat, y = price))
 ```
 
 **Observations**:
 
-- (Write your observations here!)
+The price generally increases with carat, but there isn't a single curve to represent the relationship.
 
 ## A note on *aesthetics*
 
@@ -69,12 +82,14 @@ simultaneously.
 
 ```{r q4-task}
 ## TODO: Complete this code
-ggplot(diamonds)
+ggplot(diamonds) + 
+  geom_point(aes(x = carat, y = price, color = cut))
 ```
 
 **Observations**:
 
-- (Write your observations here!)
+The cut helps explain the variation in price, where ideal cut diamonds tend to be more expensive and fair cut diamonds tend to be less expensive.
+
 
 <!-- include-exit-ticket -->
 # Exit Ticket
