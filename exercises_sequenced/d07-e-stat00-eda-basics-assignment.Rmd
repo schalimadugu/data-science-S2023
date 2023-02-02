@@ -44,6 +44,7 @@ library(tidyverse)
 to do? Do those simple checks on the diamonds dataset below.
 
 ```{r q0-task}
+diamonds %>% glimpse
 ```
 
 I'm going to walk you through a train of thought I had when studying the
@@ -71,6 +72,8 @@ diamonds %>%
 
 **Observations**:
 - Write your observations here!
+Ideal cut diamonds are actually more numerous than all other cuts! This might be because cutting a diamond is easier than mining a new one, so gemcutters add value to a diamond by striving for an ideal cut.
+
 
 ## Hypothesis 2
 
@@ -88,6 +91,8 @@ diamonds %>%
 
 **Observations**:
 - Write your observations here!
+Inneffective - we cannot address Hypothesis 2 with this graph.
+
 
 The following is a set of *boxplots*; the middle bar denotes the median, the
 boxes denote the *quartiles* (upper and lower "quarters" of the data), and the
@@ -103,6 +108,8 @@ diamonds %>%
 
 **Observations**:
 - Write your observations here!
+Surprisingly, ideal diamonds tend to be the least pricey!
+
 
 ## Unraveling Hypothesis 2
 
@@ -123,6 +130,7 @@ diamonds %>%
 
 **Observations**:
 - Write your observations here!
+The median ideal diamonds is a bit lower in carat than other cuts, which shows that gemcutters trade cut for carat. Ideal diamonds might be cheaper since they are likely to be lower-carat.
 
 ## Footnotes
 

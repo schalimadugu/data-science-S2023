@@ -32,9 +32,14 @@ library(tidyverse)
 the same visual using `geom_col()`.
 
 ```{r q1-task}
+# mpg %>%
+#   ggplot(aes(trans)) +
+#   geom_bar()
+
 mpg %>%
-  ggplot(aes(trans)) +
-  geom_bar()
+  count(trans) %>%
+  ggplot(aes(x = trans, y = n)) +
+  geom_col()
 ```
 
 The reading mentioned that when using `geom_col()` our x-y data should be
@@ -49,23 +54,20 @@ that the pairs `cty, hwy` clearly don't have this one-to-one property:
 mpg %>% filter(cty == 20)
 ```
 
-### __q2__ The following code attempts to visualize `cty, hwy` from `mpg` using
-`geom_col()`. There's something fishy about the `hwy` values; what's wrong here?
+### __q2__ The following code attempts to visualize `cty, hwy` from `mpg` using `geom_col()`. There's something fishy about the `hwy` values; what's wrong here?
 
 *Hint*: Try changing the `position` parameter for `geom_col()`.
 
 ```{r q2-task}
 mpg %>%
   ggplot(aes(x = cty, y = hwy)) +
-  geom_col()
+  geom_col(position = "dodge")
 ```
 
 **Observations**:
-- Write your observations here!
+Since position = "stacked" is the default for geom_col(), we don't see the real hwy values, but effectively a sum at each cty value.
 
-A more standard way to visualize this kind of data is a *scatterplot*, which
-we'll study later. For now, here's an example of a more effective way to
-visualize `cty` vs `hwy`:
+A more standard way to visualize this kind of data is a *scatterplot*, which we'll study later. For now, here's an example of a more effective way to visualize `cty` vs `hwy`:
 
 ```{r q2-compare}
 ## NOTE: Run this chunk for an illustration
@@ -75,9 +77,7 @@ mpg %>%
 ```
 
 ### __q3__ The following are two different visualizations of the `mpg` dataset.
-Document your observations between the `v1` and `v2` visuals. Then, determine
-which---`v1` or `v2`---enabled you to make more observations. What was the
-difference between the two visuals?
+Document your observations between the `v1` and `v2` visuals. Then, determine which---`v1` or `v2`---enabled you to make more observations. What was the difference between the two visuals?
 
 ```{r q4-v1}
 ## TODO: Run this code without changing, describe your observations on the data
@@ -87,7 +87,7 @@ mpg %>%
 ```
 
 **Observations**:
-- Write your observations here!
+SUV’s are most numerous, followed by compact and midsize. There are very few 2seater vehicles.
 
 ```{r q4-v2}
 ## TODO: Run this code without changing, describe your observations on the data
@@ -97,12 +97,15 @@ mpg %>%
 ```
 
 **Observations**:
-- Write your observations here!
+SUV’s are most numerous, followed by compact and midsize. There are very few 2seater vehicles. However, now we additionally know that pickup’s and SUV’s tend to have 4 wheel drive, compact’s and midsize tend to have f drive, and all the 2seater vehicles are r drive.
 
 **Compare `v1` and `v2`**:
 
 - Which visualization---`v1` or `v2`---enabled you to make more observations?
+v2
+
 - What was the difference between `v1` and `v2`?
+v1 showed the same variable (class) using two aesthetics, while v2 showed two variables (class and drv) using two aesthetics
 
 ### __q4__ The following code has a bug; it does not do what its author intended.
 Identify and fix the bug. What does the resulting graph tell you about the
@@ -112,24 +115,32 @@ relation between `manufacturer` and `class` of cars in this dataset?
 do this in a future exercise.
 
 ```{r q4-task}
+# mpg %>%
+#   ggplot(aes(x = manufacturer, fill = class), position = "dodge") +
+#   geom_bar() +
+#   theme(axis.text.x = element_text(angle = 270, vjust = 0.5, hjust = # 0))
+
 mpg %>%
-  ggplot(aes(x = manufacturer, fill = class), position = "dodge") +
-  geom_bar() +
+  ggplot(aes(x = manufacturer, fill = class)) +
+  geom_bar(position = "dodge") +
   theme(axis.text.x = element_text(angle = 270, vjust = 0.5, hjust = 0))
 ```
 
 **Observations**
-- Your observations here!
+Certain manufacturers seem to favor particular classes of car. For instance, it appears that Jeep, Land Rover, Lincoln, and Mercury only have SUV’s, Audi, Toyota, and Volkswagen favor compact, and Dodge favors pickup.
 
-### __q5__ The following graph is hard to read. What other form of faceting would
-make the visual more convenient to read? Modify the code below with your
-suggested improvement.
+### __q5__ The following graph is hard to read. What other form of faceting would make the visual more convenient to read? Modify the code below with your suggested improvement.
 
 ```{r q5-task}
+# mpg %>%
+#   ggplot(aes(x = cyl)) +
+#   geom_bar() +
+#   facet_grid(~ manufacturer)
+
 mpg %>%
   ggplot(aes(x = cyl)) +
   geom_bar() +
-  facet_grid(~ manufacturer)
+  facet_wrap(~ manufacturer)
 ```
 
 <!-- include-exit-ticket -->

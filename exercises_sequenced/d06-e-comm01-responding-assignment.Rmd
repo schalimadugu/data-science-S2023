@@ -97,6 +97,8 @@ Here the bolded response is *actively* engaging with your colleague's question, 
 - Is the bolded response **constructive** or **destructive**? Why?
 - How does this statement make you *feel*, relative to the bolded statement before the q1 prompt?
 
+The response is active since it responds to and builds upon the substance of the other person’s statement, and is constructive because it conveys positive emotion.
+
 ### __q2__ Identify the nature of the bolded line below, rating it as either **active vs passive** and **constructive vs destructive**.
 
 > *Presenter*: "Clearly, we can see a positive correlation between price and carat."
@@ -110,6 +112,8 @@ Here the bolded response is *actively* engaging with your colleague's question, 
 - Is the bolded response **active** or **passive**? Why?
 - Is the bolded response **constructive** or **destructive**? Why?
 - How does this statement make you *feel*, relative to the bolded statement before the q1 prompt?
+
+The response is passive since it does not respond to or build upon the substance of the other person’s statement, and is constructive because it conveys positive emotion.
 
 **Intermediate Conclusion**: We can quite naturally think of discussion responses in the APCD framework. Therefore, we should try to give active and constructive responses in data discussions!
 
@@ -176,6 +180,8 @@ Let's practice once more!
 
 - Is the bolded response **active** or **passive**? Why?
 - Is the bolded response **constructive** or **destructive**? Why?
+
+This response is passive since it strays from the topic that the other person is trying to discuss. Could be either constructive or destructive?
 
 <!-- include-exit-ticket -->
 # Exit Ticket
