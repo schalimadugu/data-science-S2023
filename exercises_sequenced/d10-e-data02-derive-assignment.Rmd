@@ -40,6 +40,7 @@ filter(diamonds, cut == "Ideal")
 ## Version 2
 diamonds %>% filter(cut == "Ideal")
 ```
+These two lines carry out the same computation. However, Version 2 uses the pipe %>%, which takes its left-hand-side (LHS) and inserts the LHS as the first argument of the right-hand-side (RHS).
 
 
 The reading mentioned various kinds of *summary functions*, which are summarized
@@ -58,6 +59,9 @@ in the table below:
 ### __q2__ Using `summarize()` and a logical summary function, determine the number of rows with `Ideal` `cut`. Save this value to a column called `n_ideal`.
 
 ```{r q2-task}
+df_q2 <-
+  diamonds %>% 
+  summarize(n_ideal = sum(cut == "Ideal"))
 df_q2
 ```
 
@@ -81,6 +85,7 @@ diamonds %>%
   ## group_by(color, clarity) %>%
   summarize(price = mean(price))
 ```
+The commented version computes a summary over the entire dataframe, while the uncommented version computes summaries over groups of color and clarity.
 
 
 ### Vectorized Functions
@@ -111,14 +116,32 @@ tibble to `df_q4`, and assign the appropriate values to `cov_depth` and
 ```{r q4-task}
 ## TODO: Compute the `cov_depth` and `cov_diff` and assign the result to df_q4
 df_q4 <-
-  diamonds
+  diamonds %>% 
+    mutate(
+    depth_computed = 100 * 2 * z / (x + y),
+    diff = depth - depth_computed
+  ) %>%
+  summarize(
+    depth_mean = mean(depth, na.rm = TRUE),
+    depth_sd = sd(depth, na.rm = TRUE),
+    cov_depth = depth_sd / depth_mean,
+
+    diff_mean = mean(diff, na.rm = TRUE),
+    diff_sd = sd(diff, na.rm = TRUE),
+    cov_diff = diff_sd / diff_mean,
+    c_diff = IQR(diff, na.rm = TRUE) / median(diff, na.rm = TRUE)
+  )
 df_q4
 ```
 
 **Observations**
 
 - Comment on the relative values of `cov_depth` and `cov_diff`.
+cov_depth is tiny; there’s not much variation in the depth, compared to its scale.
+cov_diff is enormous!
+
 - Why is `cov_diff` so large?
+The mean difference between depth and depth_computed is small, which causes the cov to blow up.
 
 The following test will verify that your `df_q4` is correct:
 
@@ -142,6 +165,14 @@ about the various cuts? Do those observations match your expectations?
 
 ```{r q5-task}
 ## TODO: Assign result to df_q5
+df_q5 <-
+  diamonds %>%
+  group_by(cut) %>%
+  summarize(
+    price_mean = mean(price),
+    price_sd = sd(price),
+    price_cov = price_sd / price_mean
+  )
 df_q5
 ```
 
@@ -166,7 +197,8 @@ print("Excellent!")
 
 **Observations**:
 
-- Write your observations here!
+I would expect the Ideal diamonds to have the highest price, but that’s not the case!
+The COV for each cut is very large, on the order of 80 to 110 percent! To me, this implies that the other variables clarity, carat, color account for a large portion of the diamond price.
 
 <!-- include-exit-ticket -->
 # Exit Ticket

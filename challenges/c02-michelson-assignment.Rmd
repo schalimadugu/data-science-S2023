@@ -1,7 +1,7 @@
 ---
 title: "Michelson Speed-of-light Measurements"
-author: "(Your name here)"
-date: 2020-
+author: "Sreenidhi Chalimadugu"
+date: 2023-02-08
 output:
   github_document:
     toc: true
@@ -84,7 +84,13 @@ df_michelson %>% glimpse
 
 ```{r q1-task}
 ## TODO: Compute summaries
-df_q1 <- NA
+df_q1 <- df_michelson %>% 
+  group_by(Distinctness) %>% 
+  summarize(
+    n = n(), 
+    MeanVelocity = mean(Velocity), digits =- 1
+  )
+
 df_q1 %>%
   arrange(desc(Distinctness)) %>%
   knitr::kable()
@@ -92,9 +98,10 @@ df_q1 %>%
 
 **Observations**:
 - Write your observations here!
-  - (Your response here)
+  - While the mean velocities of all of the different images were similar (with a MeanVelocity difference of around 50 km/s), the majority of the images had a Distinctness of 3.
+  
 - Why might your table differ from Michelson's?
-  - (Your response here)
+  - The table might differ due to rounding, so implementing ```round()``` would account for those value differences.
 
 The `Velocity` values in the dataset are the speed of light *in air*; Michelson
 introduced a couple of adjustments to estimate the speed of light in a vacuum.
@@ -107,8 +114,8 @@ observations in the dataset.
 
 ```{r q2-task}
 ## TODO: Adjust the data, assign to df_q2
-df_q2 <- NA
-
+df_q2 <- df_michelson %>% 
+  mutate(VelocityVacuum = Velocity + 92)
 df_q2
 ```
 
@@ -136,13 +143,20 @@ problems uncertainty includes some amount of human judgment.[2]
 ```{r q3-task}
 ## TODO: Compare Michelson's estimate and error against the true value
 ## Your code here!
+(LIGHTSPEED_MICHELSON - LIGHTSPEED_PM <= LIGHTSPEED_VACUUM) &
+  (LIGHTSPEED_MICHELSON + LIGHTSPEED_PM >= LIGHTSPEED_VACUUM)
 ```
+```{r q3}
+LIGHTSPEED_MICHELSON - LIGHTSPEED_VACUUM
+LIGHTSPEED_PM
+```
+
 
 **Observations**:
 - Is Michelson's estimate of the error (his uncertainty) greater or less than the true error?
-  - (Your response here)
+  - Michelson's estimate of the error was less than the true error.
 - Make a quantitative comparison between Michelson's uncertainty and his error.
-  - (Your response here)
+  - Michelson's uncertainty was plus or minus 51 km/s, but the true error was 151.142 km/s, which falls outside of his uncertainty.
 
 The following plot shows all of Michelson's data as a [control chart](https://en.wikipedia.org/wiki/Control_chart); this sort of plot is common in manufacturing, where it is used to help determine if a manufacturing process is under [statistical control](https://en.wikipedia.org/wiki/Statistical_process_control). Each dot is one of Michelson's measurements, and the grey line connects the mean taken for each day. The same plot also shows simulated data using a probability model. We'll get into statistics later in the course; for now, let's focus on understanding what real and simulated data tend to look like.
 
@@ -207,16 +221,28 @@ df_q2 %>%
 
 **Observations**:
 Similarities
-- (your responses here)
+- The general behavior and trend of the velocity data seems consistent, where they generally seem to be increasing and decreasing along the same time intervals. Plus, they both are centered around the same range.
+
 Differences
-- (your responses here)
+- There appears to be greater variance in the real data, which has more outliers, such as with the data before June 09. 
 
 ### __q5__ You have access to a few other variables. Construct a few visualizations of `VelocityVacuum` against these other factors. Are there other patterns in the data that might help explain the difference between Michelson's estimate and `LIGHTSPEED_VACUUM`?
 
+``` {r q5 plot1}
+df_q2 %>% 
+  ggplot() +
+  geom_point(aes(x = Temp, y = VelocityVacuum, color = Distinctness))
+```
+``` {r q5 plot2}
+df_q2 %>% 
+  ggplot(aes(x=Distinctness, y=VelocityVacuum)) + 
+  geom_boxplot()
+```
 **Observations**:
 
 - Make sure to record observations on your graphs!
-
+Accoring to the first plot, there seems to be a very weak positive correlation between Temp and VelocityVacuum, with a Distinctness of 3 appearing generally more towards the higher temperatures after 70 degrees.
+According to the second plot, the median VelocityVacuum value increased as the Distinctness increased. In addition, the Distinctness of 1 has one outlier that is less than the rest of the VelocityVacuum data, Distinctness of 2 has two outliers (one greater than and one less than the rest of the data), and Distinctness of 3 doesn't seem to have any outliers.
 
 
 ## Bibliography
