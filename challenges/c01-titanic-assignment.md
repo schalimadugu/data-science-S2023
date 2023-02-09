@@ -1,7 +1,6 @@
 RMS Titanic
 ================
-(Your name here)
-2020-
+Sreenidhi Chalimadugu 2023-01-25
 
 - <a href="#grading-rubric" id="toc-grading-rubric">Grading Rubric</a>
   - <a href="#individual" id="toc-individual">Individual</a>
