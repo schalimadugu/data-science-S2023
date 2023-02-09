@@ -144,7 +144,7 @@ df_q1 <- df_michelson %>%
   group_by(Distinctness) %>% 
   summarize(
     n = n(), 
-    MeanVelocity = mean(Velocity), digits =- 1
+    MeanVelocity = mean(Velocity)
   )
 
 df_q1 %>%
@@ -152,11 +152,11 @@ df_q1 %>%
   knitr::kable()
 ```
 
-| Distinctness |   n | MeanVelocity | digits |
-|:-------------|----:|-------------:|-------:|
-| 3            |  46 |     299861.7 |     -1 |
-| 2            |  39 |     299858.5 |     -1 |
-| 1            |  15 |     299808.0 |     -1 |
+| Distinctness |   n | MeanVelocity |
+|:-------------|----:|-------------:|
+| 3            |  46 |     299861.7 |
+| 2            |  39 |     299858.5 |
+| 1            |  15 |     299808.0 |
 
 **Observations**: - Write your observations here! - While the mean
 velocities of all of the different images were similar (with a
@@ -248,7 +248,8 @@ uncertainty) greater or less than the true error? - Michelson’s estimate
 of the error was less than the true error. - Make a quantitative
 comparison between Michelson’s uncertainty and his error. - Michelson’s
 uncertainty was plus or minus 51 km/s, but the true error was 151.142
-km/s, which falls outside of his uncertainty.
+km/s, which falls outside of his uncertainty, which is around 3 times
+Michalson’s uncertainty.
 
 The following plot shows all of Michelson’s data as a [control
 chart](https://en.wikipedia.org/wiki/Control_chart); this sort of plot
@@ -327,7 +328,8 @@ df_q2 %>%
 
 **Observations**: Similarities - The general behavior and trend of the
 velocity data seems consistent, where they generally seem to be
-increasing and decreasing along the same time intervals. Plus, they both
+increasing and decreasing along the same time intervals, which must be
+due to chance since the simulated data is purely random. Plus, they both
 are centered around the same range.
 
 Differences - There appears to be greater variance in the real data,
@@ -350,18 +352,23 @@ df_q2 %>%
 ```
 
 ![](c02-michelson-assignment_files/figure-gfm/q5%20plot2-1.png)<!-- -->
+
 **Observations**:
 
 - Make sure to record observations on your graphs! Accoring to the first
-  plot, there seems to be a very weak positive correlation between Temp
-  and VelocityVacuum, with a Distinctness of 3 appearing generally more
-  towards the higher temperatures after 70 degrees. According to the
-  second plot, the median VelocityVacuum value increased as the
-  Distinctness increased. In addition, the Distinctness of 1 has one
+  plot, there doesn’t seem to be any correlation between Temp and
+  VelocityVacuum. Also, a Distinctness of 3 appears generally more
+  towards the higher temperatures after 70 degrees. Based on this, we it
+  seems as though the temperature does not affect the difference between
+  Michelson’s estimate and `LIGHTSPEED_VACUUM`. According to the second
+  plot, the median VelocityVacuum value increased as the Distinctness
+  increased, but this is a weak correlation since they are relatively
+  close to each other. In addition, the Distinctness of 1 has one
   outlier that is less than the rest of the VelocityVacuum data,
   Distinctness of 2 has two outliers (one greater than and one less than
   the rest of the data), and Distinctness of 3 doesn’t seem to have any
-  outliers.
+  outliers. This does not give us much insght into the difference
+  between Michelson’s estimate and `LIGHTSPEED_VACUUM`.
 
 ## Bibliography
 

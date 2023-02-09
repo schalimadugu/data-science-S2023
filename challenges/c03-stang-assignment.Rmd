@@ -1,7 +1,7 @@
 ---
 title: "Aluminum Data"
-author: "(Your name here)"
-date: 2020-
+author: "Sreenidhi Chalimadugu"
+date: 2023-02-15
 output:
   github_document:
     toc: true
