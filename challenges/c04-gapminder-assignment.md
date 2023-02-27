@@ -1,7 +1,7 @@
 Gapminder
 ================
-(Your name here)
-2020-
+Sreenidhi Chalimadugu
+2023-02-26
 
 - [Grading Rubric](#grading-rubric)
   - [Individual](#individual)
