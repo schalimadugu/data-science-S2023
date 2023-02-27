@@ -153,15 +153,13 @@ df_stang_long <-
     pivot_longer(
       names_to = c(".value", "angle"),
       names_sep = "_",
-      names_transform = list(angle = as.integer),
-      values_to = ".value",
-      cols = contains("_")
-    ) %>% filter(
-      E != -1
-    ) %>% rename(
-      nu = mu
-    )
+      values_drop_na = TRUE,
+      cols = c(-thick, -alloy)
+    ) %>%
+    rename(nu = mu) %>%
+    filter(nu >= 0)
 
+df_stang_long$angle <- as.integer(df_stang_long$angle)
 df_stang_long
 ```
 
@@ -247,17 +245,54 @@ df_stang_long %>%
     ##  3rd Qu.:0.3277  
     ##  Max.   :0.3310
 
+``` r
+df_stang_long %>% 
+  distinct(alloy)
+```
+
+    ## # A tibble: 1 × 1
+    ##   alloy  
+    ##   <chr>  
+    ## 1 al_24st
+
+``` r
+df_stang_long %>% 
+  distinct(angle)
+```
+
+    ## # A tibble: 3 × 1
+    ##   angle
+    ##   <int>
+    ## 1     0
+    ## 2    45
+    ## 3    90
+
+``` r
+df_stang_long %>% 
+  distinct(thick)
+```
+
+    ## # A tibble: 4 × 1
+    ##   thick
+    ##   <dbl>
+    ## 1 0.022
+    ## 2 0.032
+    ## 3 0.064
+    ## 4 0.081
+
 **Observations**:
 
 - Is there “one true value” for the material properties of Aluminum?
   - No, since there are different values for E and nu.
 - How many aluminum alloys are in this dataset? How do you know?
   - There is only one aluminum alloy in the dataset, since there is only
-    one type of value in the alloy column of the dataset.
+    one distinct type of value in the alloy column of the dataset, as
+    seen in the output above.
 - What angles were tested?
-  - 0, 45, and 90 degrees were the angles testes.
+  - 0, 45, and 90 degrees were the angles tested, as seen above.
 - What thicknesses were tested?
-  - 0.022, 0.032, 0.064, and 0.081 inches were the thicknesses tested.
+  - 0.022, 0.032, 0.064, and 0.081 inches were the thicknesses tested,
+    as seen above.
 - What is the distribution of E values recorded?
   - The E values recorded a minimum of 9900 and maximum of 10700, and we
     can use more information to determine the shape and skew of its
@@ -315,7 +350,10 @@ df_stang_long %>%
   - This graph contradicts the claim above, since it appears that the
     aluminum with greater thickness (shown in purple) have lower E and
     nu values, whereas the aluminum with lower thicknesses had greater E
-    and nu values.
+    and nu values. This evidence is not conclusive, however, since from
+    the paper it seems as though the measurement technique for 0.081
+    inch thickness aluminum was different than all the other blocks,
+    which introduces some variability in the method of experimentation.
 
 # References
 
