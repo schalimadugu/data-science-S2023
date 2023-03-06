@@ -99,21 +99,25 @@ You may encounter difficulties in visualizing these data; if so document your ch
 gapminder %>% 
   filter(year == year_min) %>% 
   ggplot(aes(x = continent, y = gdpPercap)) +
-  geom_point()
+  geom_point() +
+  scale_y_log10()
 
 gapminder %>% 
   filter(year == year_min) %>% 
   ggplot(aes(x = continent, y = gdpPercap)) +
-  geom_boxplot()
+  geom_boxplot() +
+  scale_y_log10()
 ```
 
 **Observations**:
 
-It appears as though the GDP per capita within the continents are skewed right, with the exception of Oceania.
+Based on the boxplot with the log scale, it appears as though that Africa and Europe have a slight left skew, while Asia is skewed right, and the Americas and Oceania have a generally normal distribution.
 
 **Difficulties & Approaches**:
 
-Visualizing the GDP per capita for each continent with a scatterplot was not extremely helpful except for identifying where the outliers occurred,but even then, we cannot say for sure if some of them were actually outliers or just some paximum values. Then I decided to make boxplots, which gave a little bit more clarity on the skew of the data, and it also confirmed which points were outliers and how many outliers for GDP per capita there were for each continent. However, even with the boxplot, the outliers (particularly the largest point which occurs in Asia) shrunk the rest of the plot so it was still somewhat difficult to discern the GDP per capita distribution for a continent.
+First I visualized the GDP per capita without using a log scale for GDP per capita, for each continent with a scatterplot. It was not extremely helpful except for identifying where the outliers occurred,but even then, we could not say for sure if some of them were actually outliers or just some maximum values. Then I decided to make boxplots (also without using the log scale on the y-axis), which gave a little bit more clarity on the skew of the data, and it also confirmed which points were outliers and how many outliers for GDP per capita there were for each continent. However, even with the boxplot, the outliers (particularly the largest point which occurs in Asia) shrunk the rest of the plot so it was still somewhat difficult to discern the GDP per capita distribution for a continent.
+
+However, switching to a log scale made reading the data significantly easier and allowed me to make more accurate observations.
 
 
 ### __q3__ You should have found *at least* three outliers in q2 (but possibly many more!). Identify those outliers (figure out which countries they are).
