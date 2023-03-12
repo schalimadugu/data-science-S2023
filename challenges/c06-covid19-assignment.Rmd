@@ -1,7 +1,7 @@
 ---
 title: "COVID-19"
-author: "(Your name here)"
-date: 2020-
+author: "Sreenidhi Chalimadugu"
+date: 2023-03-19
 output:
   github_document:
     toc: true
@@ -78,7 +78,15 @@ That's the high-level view; now let's dig into the details.
 
 ```{r q1-task}
 ## TASK: Load the census bureau data with the following tibble name.
-df_pop <- NA
+
+filename <- "./data/ACSDT5Y2018.B01003-Data.csv"
+
+df_pop <- read_csv(filename, skip = 1) %>% 
+                   select(-starts_with("Annotation of Estimate"), 
+                   -starts_with("Annotation of Margin of Error!!Total")) %>% 
+  rename(id = Geography)
+
+df_pop
 ```
 
 *Note*: You can find information on 1-year, 3-year, and 5-year estimates [here](https://www.census.gov/programs-surveys/acs/guidance/estimates.html). The punchline is that 5-year estimates are more reliable but less current.
@@ -94,7 +102,7 @@ The New York Times is publishing up-to-date data on COVID-19 on [GitHub](https:/
 
 ```{r q2-task}
 ## TASK: Find the URL for the NYT covid-19 county-level data
-url_counties <- NA_character_
+url_counties <- "https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties-2020.csv"
 ```
 
 Once you have the url, the following code will download a local copy of the data, then load the data into R.
@@ -135,7 +143,12 @@ To join these datasets, we'll need to use [FIPS county codes](https://en.wikiped
 
 ```{r q3-task}
 ## TASK: Create a `fips` column by extracting the county code
-df_q3 <- NA
+df_q3 <- df_pop %>% 
+  mutate(
+    fips = str_sub(id, -5)
+  )
+
+df_q3
 ```
 
 Use the following test to check your answer.
@@ -155,7 +168,8 @@ print("Very good!")
 
 ```{r q4-task}
 ## TASK: Join df_covid and df_q3 by fips.
-df_q4 <- NA
+df_q4 <- df_q3 %>% 
+  left_join(df_covid, by = "fips")
 ```
 
 For convenience, I down-select some columns and produce more convenient column
@@ -188,8 +202,11 @@ Now that we've done the hard work of loading and wrangling the data, we can fina
 
 ```{r q5-task}
 ## TASK: Normalize cases and deaths
-df_normalized <-
-  df_data
+df_normalized <- df_data %>% 
+  mutate(
+    cases_per100k = 100000 * cases / population,
+    deaths_per100k = 100000 * deaths / population
+  )
 ```
 
 You may use the following test to check your work.
@@ -237,19 +254,46 @@ Before turning you loose, let's complete a couple guided EDA tasks.
 
 ```{r q6-task}
 ## TASK: Compute mean and sd for cases_per100k and deaths_per100k
+df_summative <- df_normalized %>% 
+  group_by(date) %>% 
+  drop_na(cases_per100k, deaths_per100k) %>% 
+  summarize(
+    mean_cases_per100k = mean(cases_per100k),
+    sd_cases_per100k = sd(cases_per100k),
+    mean_deaths_per100k = mean(deaths_per100k),
+    sd_deaths_per100k = sd(deaths_per100k)
+  )
+
+df_summative
 ```
 
 ### __q7__ Find the top 10 counties in terms of `cases_per100k`, and the top 10 in terms of `deaths_per100k`. Report the population of each county along with the per-100,000 counts. Compare the counts against the mean values you found in q6. Note any observations.
 
 ```{r q7-task}
 ## TASK: Find the top 10 max cases_per100k counties; report populations as well
+sorted_cases <- df_normalized %>% 
+  group_by(fips) %>% 
+  summarize(max_cases_per100k = max(cases_per100k)) %>% 
+  arrange(desc(max_cases_per100k))
+top_cases <- sorted_cases %>% 
+  slice(1:10)
+top_cases
 
 ## TASK: Find the top 10 deaths_per100k counties; report populations as well
+sorted_deaths <- df_normalized %>% 
+  group_by(fips) %>% 
+  summarize(max_deaths_per100k = max(deaths_per100k)) %>% 
+  arrange(desc(max_deaths_per100k))
+top_deaths <- sorted_deaths %>% 
+  slice(1:10)
+top_deaths
 ```
 
 **Observations**:
 
-- (Note your observations here!)
+- 2 of the 10 counties with the maximum cases per 100k start with the FIPS digits of 46-, and 2 of them srart with 47-, which represent counties in South Dakota and Tennessee respectively.
+- 4 of the 10 counties with the maximum deaths per 100k start with the FIPS digits of 46-, which represents counties in South Dakota. In addition, 2 of the 10 counties start with the FIPS digits of 38-, which represents counties in North Dakota.
+
 
 ## Self-directed EDA
 <!-- ------------------------- -->
@@ -266,7 +310,42 @@ Before turning you loose, let's complete a couple guided EDA tasks.
 - Fix the *geographic exceptions* noted below to study New York City.
 - Your own idea!
 
-**DO YOUR OWN ANALYSIS HERE**
+```{r q8-task}
+df_normalized %>%
+  filter(state == "Maryland") %>%
+  ggplot(
+    aes(date, cases_per100k, color = fct_reorder2(county, date, cases_per100k))) +
+  geom_line() +
+  scale_y_log10(labels = scales::label_number_si()) +
+  scale_color_discrete(name = "County") +
+  theme_minimal() +
+  labs(
+    x = "Date",
+    y = "Cases (per 100,000 persons)"
+  )
+
+df_normalized %>%
+  filter(state == "Maryland") %>%
+  ggplot(
+    aes(date, deaths_per100k, color = fct_reorder2(county, date, deaths_per100k))) +
+  geom_line() +
+  scale_y_log10(labels = scales::label_number_si()) +
+  scale_color_discrete(name = "County") +
+  theme_minimal() +
+  labs(
+    x = "Date",
+    y = "Deaths (per 100,000 persons)"
+  )
+```
+
+**Observations**:
+
+If we look at the first graph, which depicts the COVID cases in the various counties across Maryland, we can see that Garrett county appears as an outlier with the lowest number of cases out of all of the counties for the majority of the year. Interestingly enough, however, we can see in the second plot, which depicts the deaths from COVID across the Maryland counties, that although Garrett is also the county with the lowest number of deaths for the majority of the year, but around December it peaks to the second highest county with the highest number of deaths. This corresponds to this [Washington Post article](https://www.washingtonpost.com/local/garrett-county-coronavirus-maryland/2020/12/28/ea3117d0-3fbb-11eb-8bc0-ae155bee4aff_story.html) which confirms the fact that "All spring, summer and into the fall, Garrett County saw the pandemic on national news but not at home... But as Christmas approached and the first shipments of vaccine rolled into bigger towns and cities across the country, the small hospital in Oakland was in distress."
+
+In addition, Kent was the county with the highest number of deaths for much of the year, however it is not the county with the highest number of cases -- it was Prince George's that took the lead with the highest number of cases for much of the year.
+
+
+
 
 ### Aside: Some visualization tricks
 <!-- ------------------------- -->
