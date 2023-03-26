@@ -1,7 +1,7 @@
 ---
 title: "Estimating Pi With a Shotgun"
-author: "(Your name here)"
-date: 2020-
+author: "Sreenidhi Chalimadugu"
+date: 2023-03-26
 output:
   github_document:
     toc: true
@@ -101,15 +101,31 @@ Remember in `e-stat02-probability` we learned how to estimate probabilities as t
 
 ```{r q1-task}
 ## TASK: Choose a sample size and generate samples
-n <- NA_real_ # Choose a sample size
-df_q1 <- NA # Generate the data
+set.seed(100)
+n <- 10000 # Choose a sample size
+df_q1 <- tibble(
+  x = runif(n, 0, 1),
+  y = runif(n, 0, 1)
+) # Generate the data
+
+df_q1
 ```
 
 ### __q2__ Using your data in `df_q1`, estimate $\pi$.
 
 ```{r q2-task}
 ## TASK: Estimate pi using your data from q1
-pi_est <- NA_real_
+pi_est <- df_q1 %>%
+  mutate(
+    inside_circle = (x^2 + y^2) < 1
+  ) %>%
+  summarize(
+    inside_circle_mean = mean(inside_circle),
+    inside_circle_sd = sd(inside_circle),
+    inside_circle_se = inside_circle_sd / sqrt(nrow(df_q1)),
+    pi_est = inside_circle_mean * 4
+  )
+
 pi_est
 ```
 
@@ -121,16 +137,23 @@ You now have an estimate of $\pi$, but how trustworthy is that estimate? In `e-s
 ### __q3__ Using a CLT approximation, produce a confidence interval for your estimate of $\pi$. Make sure you specify your confidence level. Does your interval include the true value of $\pi$? Was your chosen sample size sufficiently large so as to produce a trustworthy answer?
 
 ```{r q3-task}
+confidence_level_99 <- qnorm(1 - (1 - 0.99) / 2)
+
+low_pi_est <- (pi_est$inside_circle_mean - (confidence_level_99 * pi_est$inside_circle_se)) * 4
+high_pi_est <- (pi_est$inside_circle_mean + (confidence_level_99 * pi_est$inside_circle_se)) * 4
+
+low_pi_est
+high_pi_est
 ```
 
 **Observations**:
 
 - Does your interval include the true value of $\pi$?
-  - (Your response here)
+  - Yes, my interval includes the true value of $\pi$.
 - What confidence level did you choose?
-  - (Your response here)
+  - I chose a 99% confidence level, which is fairly high. With this 99% confidence level, I produced a low $\pi$ esimate of 3.107 and a high $\pi$ estimate of 3.191, and the true value of $\pi$ falls well inside this confidence interval, which is relatively small (around 0.08).
 - Was your sample size $n$ large enough? Why do you say that?
-  - (Your response here)
+  - I chose a sample size of 10000 points, which seemed large enough to approximate $\pi$, since I was able to obtain a value of 3.1488 which is relatively close to the true value of $\pi$, and the true value also fell within the confidence interval as described earlier.
 
 # References
 <!-- -------------------------------------------------- -->
