@@ -394,8 +394,11 @@ df_norm_pof
 - Assuming your scopus is the probability of failure `POF` defined
   above, does your estimate exhibit real variability, induced
   variability, or both?
-  - The estimate exhibits real variability since the strength of the
-    material has natural variation in it.
+  - The estimate exhibits induced variability, since the POF is a fixed
+    constant that depends on the distribution of strength values, so any
+    potential variation must be induced. For there to be real
+    variability, the distribution of strength would need to be changing,
+    but that is not the case.
 - Does this confidence interval imply that `POF < 0.03`?
   - Yes, since the confidence interval is fully less than 0.03, with a
     high POF value of 0.019, so the data suggests that the POF is less
@@ -406,11 +409,11 @@ df_norm_pof
     probability in q2 and is more reliable.
 - Does the confidence interval above account for uncertainty arising
   from the *Monte Carlo approximation*? Why or why not?
-  - No, the confidence interval doesn’t account for uncertainty arising
-    from the Monte Carlo approximation, since the different random
-    samples in a Monte Carlo approximation can generate different
-    confidence intervals, which this confidence interval doesn't take
-    into account.
+  - Yes, the confidence interval does account for uncertainty arising
+    from the Monte Carlo approximation, since the confidence interval is
+    calculated over the mean and standard deviation of the Monte Carlo
+    sample, so it explicitly does account for the uncertainty produced
+    by Monte Carlo sampling.
 - Does the confidence interval above account for uncertainty arising
   from *limited physical tests* (`df_samples`)? Why or why not?
   - No, since we based the 10000 generated samples from the limited 25
@@ -504,9 +507,10 @@ df_samples %>% estimate_pof()
   - Yes, since there are still limited physical tests.
 - With the scopus as the `POF`, would uncertainty due to *limited
   physical tests* be induced or real?
-  - Uncertainty due to limited physical tests can be both induced
-    because of the testing process and real because of the natural
-    variability between the different sampled parts.
+  - Uncertainty due to limited physical tests would be induced, since
+    it’s the measurement process and number of measurements taken that
+    are the cause of uncertainty, as opposed to any quality of the
+    material that caused us to have a limited number of physical tests.
 
 ## Quantifying sampling uncertainty
 
@@ -549,7 +553,9 @@ df_samples %>%
   - No, since it doesn’t use Monte Carlo approximation.
 - Does the confidence interval above account for uncertainty arising
   from *limited physical tests* (`df_samples`)? Why or why not?
-  - No, since there are limited physical tests.
+  - Yes, since the bootstrap is explicitly used to account for limited
+    physical testing in this application by resampling the set of
+    physical tests as a stand-in for the population.
 - Can you confidently conclude that `POF < 0.03`? Why or why not?
   - No, since the upper bound in this confidence interval is greater
     than 0.03, with a value of 0.047.

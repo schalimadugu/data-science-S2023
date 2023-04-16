@@ -209,24 +209,24 @@ df_q1
 
 ``` r
 ## TASK: Estimate pi using your data from q1
-pi_est <- df_q1 %>%
+df_q2 <- df_q1 %>%
   mutate(
-    inside_circle = (x^2 + y^2) < 1
+    inside_circle = (x^2 + y^2) < 1,
+    stat = inside_circle * 4
   ) %>%
   summarize(
-    inside_circle_mean = mean(inside_circle),
-    inside_circle_sd = sd(inside_circle),
-    inside_circle_se = inside_circle_sd / sqrt(nrow(df_q1)),
-    pi_est = inside_circle_mean * 4
+    mean_stat = mean(stat),
+    sd_stat = sd(stat),
+    se_stat = sd_stat / sqrt(nrow(df_q1))
   )
 
-pi_est
+df_q2
 ```
 
-    ## # A tibble: 1 × 4
-    ##   inside_circle_mean inside_circle_sd inside_circle_se pi_est
-    ##                <dbl>            <dbl>            <dbl>  <dbl>
-    ## 1              0.787            0.409          0.00409   3.15
+    ## # A tibble: 1 × 3
+    ##   mean_stat sd_stat se_stat
+    ##       <dbl>   <dbl>   <dbl>
+    ## 1      3.15    1.64  0.0164
 
 # Quantifying Uncertainty
 
@@ -242,19 +242,19 @@ to assess your $\pi$ estimate.
 ``` r
 confidence_level_99 <- qnorm(1 - (1 - 0.99) / 2)
 
-low_pi_est <- (pi_est$inside_circle_mean - (confidence_level_99 * pi_est$inside_circle_se)) * 4
-high_pi_est <- (pi_est$inside_circle_mean + (confidence_level_99 * pi_est$inside_circle_se)) * 4
+df_q3 <- df_q2 %>% 
+  mutate(
+    low_pi_est = (mean_stat - (confidence_level_99 * se_stat)),
+    high_pi_est = (mean_stat + (confidence_level_99 * se_stat))
+  )
 
-low_pi_est
+df_q3
 ```
 
-    ## [1] 3.106628
-
-``` r
-high_pi_est
-```
-
-    ## [1] 3.190972
+    ## # A tibble: 1 × 5
+    ##   mean_stat sd_stat se_stat low_pi_est high_pi_est
+    ##       <dbl>   <dbl>   <dbl>      <dbl>       <dbl>
+    ## 1      3.15    1.64  0.0164       3.11        3.19
 
 **Observations**:
 
@@ -269,8 +269,9 @@ high_pi_est
 - Was your sample size $n$ large enough? Why do you say that?
   - I chose a sample size of 10000 points, which seemed large enough to
     approximate $\pi$, since I was able to obtain a value of 3.1488
-    which is relatively close to the true value of $\pi$, and the true
-    value also fell within the confidence interval as described earlier.
+    which is relatively close to the true value of $\pi$. Experimenting
+    with other $n$ values, it seems that the lower the $n$ value, the
+    larger the confidence interval tends to be.
 
 # References
 
