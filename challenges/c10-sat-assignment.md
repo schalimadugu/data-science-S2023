@@ -382,14 +382,14 @@ lower_conf_interval
 ```
 
     ##      2.5% 
-    ## 0.6966794
+    ## 0.6925478
 
 ``` r
 upper_conf_interval
 ```
 
     ##     97.5% 
-    ## 0.8477492
+    ## 0.8433458
 
 **Observations**:
 
@@ -533,8 +533,9 @@ df_composite %>%
 - What is the confidence interval on the coefficient of `both_SAT` when
   including `high_GPA` as a predictor?? Is this coefficient
   significantly different from zero?
-  - The confidence interval again does not include zero, so the
-    coefficient is significantly different from zero.
+  - The confidence interval here is -0.00022 to 0.0018, which includes
+    zero and therefore the coefficient is not significantly different
+    from zero.
 - How do the hypothesis test results compare with the results in q6?
   - Taking the `high_GPA` into account, `both_SAT` might not be
     positively correlated with academic performance, unlike what the
