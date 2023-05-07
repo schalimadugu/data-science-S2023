@@ -172,8 +172,10 @@ To check your results, this is Table `B01003`.
 filename <- "./data/ACSDT5Y2018.B01003-Data.csv"
 
 df_pop <- read_csv(filename, skip = 1) %>% 
-                   select(-starts_with("Annotation of Estimate"), 
-                   -starts_with("Annotation of Margin of Error!!Total")) %>% 
+  select(
+    -starts_with("Annotation of Estimate"), 
+    -starts_with("Annotation of Margin of Error!!Total")
+  ) %>% 
   rename(id = Geography)
 ```
 
@@ -497,62 +499,80 @@ df_summative
 ``` r
 ## TASK: Find the top 10 max cases_per100k counties; report populations as well
 sorted_cases <- df_normalized %>% 
-  group_by(fips) %>% 
+  group_by(state, county, fips, population) %>% 
   summarize(max_cases_per100k = max(cases_per100k)) %>% 
   arrange(desc(max_cases_per100k))
+```
+
+    ## `summarise()` has grouped output by 'state', 'county', 'fips'. You can override
+    ## using the `.groups` argument.
+
+``` r
 top_cases <- sorted_cases %>% 
   slice(1:10)
 top_cases
 ```
 
-    ## # A tibble: 10 × 2
-    ##    fips  max_cases_per100k
-    ##    <chr>             <dbl>
-    ##  1 08025            29254.
-    ##  2 47169            22553.
-    ##  3 46041            21855.
-    ##  4 20137            21491.
-    ##  5 46009            21194.
-    ##  6 05079            20591.
-    ##  7 13053            20535.
-    ##  8 46017            19971.
-    ##  9 47095            18708.
-    ## 10 19021            18337.
+    ## # A tibble: 3,220 × 5
+    ## # Groups:   state, county, fips [3,220]
+    ##    state   county   fips  population max_cases_per100k
+    ##    <chr>   <chr>    <chr>      <dbl>             <dbl>
+    ##  1 Alabama Autauga  01001      55200             7591.
+    ##  2 Alabama Baldwin  01003     208107             6536.
+    ##  3 Alabama Barbour  01005      25782             5872.
+    ##  4 Alabama Bibb     01007      22527             8141.
+    ##  5 Alabama Blount   01009      57645             8051.
+    ##  6 Alabama Bullock  01011      10352             8298.
+    ##  7 Alabama Butler   01013      20025             7531.
+    ##  8 Alabama Calhoun  01015     115098             8249.
+    ##  9 Alabama Chambers 01017      33826             6921.
+    ## 10 Alabama Cherokee 01019      25853             5469.
+    ## # … with 3,210 more rows
 
 ``` r
 ## TASK: Find the top 10 deaths_per100k counties; report populations as well
 sorted_deaths <- df_normalized %>% 
-  group_by(fips) %>% 
+  group_by(state, county, fips, population) %>% 
   summarize(max_deaths_per100k = max(deaths_per100k)) %>% 
   arrange(desc(max_deaths_per100k))
+```
+
+    ## `summarise()` has grouped output by 'state', 'county', 'fips'. You can override
+    ## using the `.groups` argument.
+
+``` r
 top_deaths <- sorted_deaths %>% 
   slice(1:10)
 top_deaths
 ```
 
-    ## # A tibble: 10 × 2
-    ##    fips  max_deaths_per100k
-    ##    <chr>              <dbl>
-    ##  1 20063               764.
-    ##  2 46073               739.
-    ##  3 38021               644.
-    ##  4 46053               619.
-    ##  5 46125               593.
-    ##  6 38031               578.
-    ##  7 55051               577.
-    ##  8 46057               567.
-    ##  9 51595               558.
-    ## 10 13141               551.
+    ## # A tibble: 3,220 × 5
+    ## # Groups:   state, county, fips [3,220]
+    ##    state   county   fips  population max_deaths_per100k
+    ##    <chr>   <chr>    <chr>      <dbl>              <dbl>
+    ##  1 Alabama Autauga  01001      55200               87.0
+    ##  2 Alabama Baldwin  01003     208107               77.4
+    ##  3 Alabama Barbour  01005      25782              124. 
+    ##  4 Alabama Bibb     01007      22527              204. 
+    ##  5 Alabama Blount   01009      57645              109. 
+    ##  6 Alabama Bullock  01011      10352              213. 
+    ##  7 Alabama Butler   01013      20025              225. 
+    ##  8 Alabama Calhoun  01015     115098              136. 
+    ##  9 Alabama Chambers 01017      33826              186. 
+    ## 10 Alabama Cherokee 01019      25853               92.8
+    ## # … with 3,210 more rows
 
 **Observations**:
 
 - 2 of the 10 counties with the maximum cases per 100k start with the
-  FIPS digits of 46-, and 2 of them srart with 47-, which represent
+  FIPS digits of 46-, and 2 of them start with 47-, which represent
   counties in South Dakota and Tennessee respectively.
 - 4 of the 10 counties with the maximum deaths per 100k start with the
   FIPS digits of 46-, which represents counties in South Dakota. In
   addition, 2 of the 10 counties start with the FIPS digits of 38-,
   which represents counties in North Dakota.
+- The max deaths and max cases are much higher then the mean deaths and
+  mean cases.
 
 ## Self-directed EDA
 
