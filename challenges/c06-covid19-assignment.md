@@ -571,7 +571,7 @@ top_deaths
   FIPS digits of 46-, which represents counties in South Dakota. In
   addition, 2 of the 10 counties start with the FIPS digits of 38-,
   which represents counties in North Dakota.
-- The max deaths and max cases are much higher then the mean deaths and
+- The max deaths and max cases are much higher than the mean deaths and
   mean cases.
 
 ## Self-directed EDA

@@ -24,7 +24,7 @@ Unlike exercises, **challenges will be graded**. The following rubrics define ho
 <!-- ------------------------- -->
 
 | Category    | Needs Improvement                                                                                                | Satisfactory                                                                                                               |
-|-------------|------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|
+|-----------------|--------------------------|-----------------------------|
 | Effort      | Some task **q**'s left unattempted                                                                               | All task **q**'s attempted                                                                                                 |
 | Observed    | Did not document observations, or observations incorrect                                                         | Documented correct observations based on analysis                                                                          |
 | Supported   | Some observations not clearly supported by analysis                                                              | All observations clearly supported by analysis (table, graph, etc.)                                                        |
@@ -309,7 +309,7 @@ top_deaths
 
 -   2 of the 10 counties with the maximum cases per 100k start with the FIPS digits of 46-, and 2 of them start with 47-, which represent counties in South Dakota and Tennessee respectively.
 -   4 of the 10 counties with the maximum deaths per 100k start with the FIPS digits of 46-, which represents counties in South Dakota. In addition, 2 of the 10 counties start with the FIPS digits of 38-, which represents counties in North Dakota.
--   The max deaths and max cases are much higher then the mean deaths and mean cases.
+-   The max deaths and max cases are much higher than the mean deaths and mean cases.
 
 ## Self-directed EDA
 
